@@ -1,11 +1,25 @@
 "use client"
 import Link from "next/link";
 import { useState } from "react";
+import {SignUpFn} from '../../../axios/POST'
 
 export default function Signup() {
     const [name,setName] = useState('');
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
+
+    async function handleSignUp(){
+        try{
+            let r = await SignUpFn({
+                name,
+                email,
+                password
+            })
+            console.log(r);
+        }catch(err){
+            console.log(err);
+        }
+    }
 
     return (
         <div className="flex max-h-screen p-10">
@@ -21,7 +35,7 @@ export default function Signup() {
                 name="name"
                 value={name}
                 onChange={(e)=>setName(e.target.value)}
-                className="border rounded-lg focus:outline-0 focus:border-green-800 w-72" />
+                className="border rounded-lg focus:outline-0 focus:border-green-800 w-72 p-1 text-[#121212]" />
 
                 <label htmlFor="email" className="mt-4 text-sm font-semibold">Email</label>
                 <input 
@@ -29,16 +43,20 @@ export default function Signup() {
                 name="email"
                 value={email}
                 onChange={(e)=>setEmail(e.target.value)}
-                className="border rounded-lg focus:outline-0 focus:border-green-800 w-72" />
+                className="border rounded-lg focus:outline-0 focus:border-green-800 w-72 p-1" />
 
                 <label htmlFor="Description" className="mt-4 text-sm font-semibold">Password</label>
                 <input 
                 type="password" 
                 name="password"
+                value={password}
                 onChange={(e)=>setPassword(e.target.value)}
-                className="border rounded-lg focus:outline-0 focus:border-green-800 w-72" />
+                className="border rounded-lg focus:outline-0 focus:border-green-800 w-72 p-1" />
 
-                <button className="border mt-4 w-72 py-1 bg-green-800 text-white rounded-lg">Create</button>
+                <button 
+                className="border mt-4 w-72 py-1 bg-green-800 text-white rounded-lg"
+                onClick={handleSignUp}
+                >Create</button>
                 <Link 
                 href={'/login'}
                 className="text-xs text-gray-500 mt-2 md:ms-20 ms-14 w-full"
