@@ -1,5 +1,6 @@
+"use client";
 import * as React from "react"
-
+import { useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -9,9 +10,6 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import Link from "next/link"
 
 
 const CardList = () => {
@@ -19,8 +17,7 @@ const CardList = () => {
         <Card
             className="flex-col gap-3 w-[250px] relative h-[300px] flex justify-center items-start bg-[#121212] hover:border-neutral-700 px-7">
             <div>
-                <span>Title : </span>
-                <span>New</span>
+                <span className="tex">Whale Killing</span>
             </div>
 
             <div>

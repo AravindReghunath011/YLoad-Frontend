@@ -1,8 +1,10 @@
 import {GETUPLOADS_ENDPOINT} from '../../endpoints/index'
+import axios from 'axios';
 
 export const getUploads = (email)=>{
     try{
-        return axios.post(GETUPLOADS_ENDPOINT+`?email=${email}`);
+        console.log(email);
+        return axios.get(GETUPLOADS_ENDPOINT+`?email=${email}`);
     }catch(err){
         return err;
     }

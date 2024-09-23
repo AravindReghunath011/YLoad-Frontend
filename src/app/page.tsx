@@ -3,10 +3,14 @@ import { Button } from "@/components/ui/button"
 import Marquee from 'react-fast-marquee'
 import Link from 'next/link'
 import Image from 'next/image'
+import Navbar from '@/components/Navbar'
 
 
 const page = () => {
   return ( 
+    <>
+
+<Navbar />
     <div className='h-full w-full'>
       
       
@@ -40,6 +44,7 @@ No credentials required—just approval for a hassle-free experience!</p>
         </div>
         
     </div>
+    </>
   )
 }
 

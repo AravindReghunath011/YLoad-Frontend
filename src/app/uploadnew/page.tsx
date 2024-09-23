@@ -16,6 +16,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FaRegCopy } from "react-icons/fa";
 import Link from "next/link";
+import { Loader2 } from "lucide-react"
+import { GenerateAuthUrlFn, GetPresignedUrlFn } from "../../../axios/POST";
 
 const page = () => {
   const [form, setForm] = useState({
@@ -25,9 +27,17 @@ const page = () => {
   });
 
   const [copied, setCopied] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [authUrl, setAuthUrl] = useState(null);
-
+  const handleCopy  = async()=>{
+    try {
+        await navigator.clipboard.writeText(authUrl);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
+    } catch (err) {
+        console.error('Failed to copy: ', err);
+    }
+  }
   function handleChange(event) {
     console.log(event, "event");
     const inputValue =
@@ -39,35 +49,52 @@ const page = () => {
     });
   }
 
-  async function uploadToS3(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const file = formData.get("file");
-    const title = formData.get("title");
-    const description = formData.get("description");
-    if (!file) {
-      console.log("no file exists");
-      return null;
-    }
+  function handleCancel(){
+    setIsLoading(false);
+  }
 
-    const fileType = file.type;
-    console.log(fileType, file.type, "filetype");
-    const { data } = await axios.post(
-      `http://localhost:8000/api/v1/presignedurl`,
-      { title, description, fileType }
-    );
-    console.log(data, "dataaaa");
-    const { uploadUrl, Key, id } = data;
-    axios.put(uploadUrl, file).then(async () => {
-      const response = await axios.post(
-        "http://localhost:8000/api/v1/generateAuthUrl",
-        { id }
-      );
-      if (response) {
-        setAuthUrl(response.data.authUrl);
-        console.log(response.data.authUrl, "auuuuth");
+  async function uploadToS3(event) {
+    try{
+      setIsLoading(true)
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const file = formData.get("file");
+      const title = formData.get("title");
+      const description = formData.get("description");
+      if (!file) {
+        console.log("no file exists");
+        setIsLoading(false)
+        return null;
       }
-    });
+  
+      const fileType = file.type;
+      console.log(fileType, file.type, "filetype");
+      // const { data } = await axios.post(
+      //   `http://localhost:8000/api/v1/presignedurl`,
+      //   { title, description, fileType }
+      // );
+      const {data} = await GetPresignedUrlFn({
+        title, description, fileType
+      })
+      const { uploadUrl, Key, id } = data;
+      console.log("Data ==>",data)
+      axios.put(uploadUrl, file).then(async () => {
+        // const response = await axios.post(
+        //   "http://localhost:8000/api/v1/generateAuthUrl",
+        //   { id }
+        // );
+        const response = await GenerateAuthUrlFn({id})
+        console.log(response)
+        if (response) {
+          setAuthUrl(response.data.authUrl);
+          console.log(response.data.authUrl, "auuuuth");
+        }
+        setIsLoading(false)
+      });
+    }catch(err){
+      console.log(err);
+      setIsLoading(false);
+    }
   }
   return (
     <div className="mt-14 flex justify-center items-center">
@@ -111,13 +138,24 @@ const page = () => {
           </CardContent>
           <CardFooter className="flex justify-between">
             <Link className=" " href={"/upload"}>
-              <Button variant={"outline"}>Cancel</Button>
+              <Button variant={"outline"} onClick={handleCancel}>Cancel</Button>
             </Link>
-            <Button type="submit">Upload</Button>
+            {
+              isLoading == true ? (
+                <Button disabled>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Please wait
+              </Button>
+              ) : ( <Button type="submit">Upload</Button>)
+            }
+           
           </CardFooter>
         </form>
         {authUrl && (
-          <div className="flex w-[92%] my-4 m-auto gap-4">
+            <div className="w-[92%] m-auto my-4">
+
+            
+          <div className="flex w-full my-2  m-auto gap-4">
             <Input
               id="url"
               disabled
@@ -128,7 +166,7 @@ const page = () => {
             <Button
               size={"icon"}
               variant={"outline"}
-              onClick={() => setCopied(true)}
+              onClick={() => handleCopy()}
             >
               {copied ? (
                 <FaCheck size={14} className="text-gray-600" />
@@ -140,6 +178,8 @@ const page = () => {
               )}
             </Button>
           </div>
+          <p className="text-gray-400 text-xs">  Please open the link and grant access using the account you would like to upload to. </p>
+          </div>    
         )}
       </Card>
     </div>
