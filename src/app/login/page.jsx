@@ -1,18 +1,24 @@
 "use client"
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { LoginFn } from "../../../axios/POST";
 import { useRouter } from "next/navigation";
+import { UserContext } from "../../../context/userContext";
 
 export default function Login() {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const router = useRouter();
+    const { user, setUser } = useContext(UserContext);
     async function handleLogin(){
         try{
             let r = await LoginFn({
                 email,
                 password
+            })
+            setUser({
+                name:r.data.user.name,
+                email:r.data.user.email
             })
             if(r.status == 200){
                 router.push('/');
