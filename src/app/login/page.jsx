@@ -4,13 +4,18 @@ import { useContext, useState } from "react";
 import { LoginFn } from "../../../axios/POST";
 import { useRouter } from "next/navigation";
 import { UserContext } from "../../../context/userContext";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
 export default function Login() {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
     const router = useRouter();
     const { user, setUser } = useContext(UserContext);
     async function handleLogin(){
+        setIsLoading(true);
         try{
             let r = await LoginFn({
                 email,
@@ -24,8 +29,10 @@ export default function Login() {
                 router.push('/');
             }
             console.log(r)
+            setIsLoading(false);
         }catch(err){
             console.log(err);
+            setIsLoading(false)
         }
     }
 
@@ -51,8 +58,16 @@ export default function Login() {
                 value={password}
                 onChange={(e)=>setPassword(e.target.value)}
                 className="border rounded-lg focus:outline-0 focus:border-green-800 w-72 p-1" />
-
-                <button className="border mt-4 w-72 py-1 bg-green-800 text-white rounded-lg" onClick={handleLogin}>Login</button>
+                {
+                    isLoading ? (
+                        <Button disabled className="border mt-4 w-72 py-1 bg-green-800 text-white rounded-lg">
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Please wait
+                    </Button>
+                    ) : (
+                        <button className="border mt-4 w-72 py-1 bg-green-800 text-white rounded-lg" onClick={handleLogin}>Login</button>
+                    )
+                }
                 <Link 
                 href={'/signup'}
                 className="text-xs text-gray-500 mt-2 md:ms-20 ms-14 w-full"
