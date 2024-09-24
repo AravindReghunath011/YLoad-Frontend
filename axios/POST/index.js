@@ -17,6 +17,7 @@ export const SignUpFn = async(data)=>{
 
 export const LoginFn = async(data)=>{
     try{
+        console.log("Login ENDPOINT reached =>" , data);
         return axios.post(LOGIN_ENDPOINT , data);
     }catch(err){
         return err;
