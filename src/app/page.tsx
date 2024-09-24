@@ -28,7 +28,7 @@ No credentials required—just approval for a hassle-free experience!</p>
               <Link href={'/upload'}>
               <Button  className={'bg-[#121212] text-white p-2 md:p-5 hover:bg-[#121212] hover:border-neutral-700 border px-4 md:w-36 shadow'}>Dashboard</Button>
             </Link>
-            <Link href={'/uploadnew'}> <Button className={'bg-green-800 border border-green-700 hover:bg-green-800  hover:border-green-600 p-2 px-4 md:p-5 md:w-36 text-white'}>Upload a video</Button></Link>
+            <Link target="_blank" rel="noopener noreferrer"  href={'https://docs.google.com/forms/d/e/1FAIpQLSeJXnqolv7JsjISb4-9hu5h3MrdocSQ2n7lsWSFUJcrD9zWkg/viewform?fbzx=1037444620785861205&edit2=2_ABaOnucDhurcem7EEY3QeHBTQxpzdTiLoNn1Kz64NvVQCT5aoxGjhfUPutoWctMa_g'}> <Button className={'bg-green-800 border border-green-700 hover:bg-green-800  hover:border-green-600 p-2 px-4 md:p-5 md:w-36 text-white'}>Try for Free</Button></Link>
 
             </div>
             <div className='w-[70%] md:w-50% mt-16 text-xl'>
