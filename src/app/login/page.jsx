@@ -30,13 +30,13 @@ export default function Login() {
     }
 
     return (
-        <div className="flex max-h-screen p-10">
-            <div className="flex flex-col justify-center w-1/2 md:ms-32">
+        <div className="flex h-screen max-h-screen items-center p-10">
+            <div className="flex flex-col justify-center md:w-1/2 md:ms-32">
                 <h1 className="flex-start font-bold md:text-3xl text-2xl">
-                    <span className="font-extrabold text-5xl">W</span>
+                    <span className="font-boold text-4xl">W</span>
                    elcome back</h1>
                 <p className="text-xs text-gray-500">Increase your collabration and engagment</p>
-                <label htmlFor="email" className="mt-4 text-sm font-semibold">Email</label>
+                <label htmlFor="email" className="mt-8 text-sm font-semibold">Email</label>
                 <input 
                 type="text" 
                 name="email"
@@ -59,7 +59,7 @@ export default function Login() {
                 >New to our platform?</Link>
 
             </div>
-            <div className="w-1/2 hidden lg:block">
+            <div className="w-1/2 hidden h-screen py-10 lg:block">
                 <img src="/img-01.jpg" alt="image" className="object-cover h-full w-full rounded-2xl" />
             </div>
         </div>
