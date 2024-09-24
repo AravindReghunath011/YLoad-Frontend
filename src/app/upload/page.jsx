@@ -5,6 +5,7 @@ import EmptyCard from '../../components/EmptyCard'
 import CardList from '../../components/Card';
 import {getUploads} from '../../../axios/GET/index';
 import { UserContext } from '../../../context/userContext';
+import Navbar from '@/components/Navbar';
 
 const page = () => {
   const [list, setList] = useState([]);
@@ -21,13 +22,16 @@ const page = () => {
     fetchUploads()
   },[])
   return (
-    <div className='w-[90%] m-auto mt-14 flex gap-6'>
+    <>
+    <Navbar/>
+    <div className='w-[90%] m-auto mt-14 flex flex-col md:flex-row gap-6 items-center md:items-start'>
         <EmptyCard/>
         {/* <CardList/>
         <CardList/>
         <CardList/> */}
         <DataTable data={list}/>
     </div>
+    </>
   )
 }
 

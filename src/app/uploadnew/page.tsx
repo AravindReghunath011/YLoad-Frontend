@@ -18,6 +18,7 @@ import { FaRegCopy } from "react-icons/fa";
 import Link from "next/link";
 import { Loader2 } from "lucide-react"
 import { GenerateAuthUrlFn, GetPresignedUrlFn } from "../../../axios/POST";
+import Navbar from "@/components/Navbar";
 
 const page = () => {
   const [form, setForm] = useState({
@@ -97,7 +98,9 @@ const page = () => {
     }
   }
   return (
-    <div className="mt-14 flex justify-center items-center">
+    <>
+    <Navbar/>
+    <div className="mt-14 flex justify-center items-center px-5 md:px-0">
       <Card className="w-[550px] bg-[#121212]">
         <form onSubmit={uploadToS3}>
           <CardHeader>
@@ -183,6 +186,7 @@ const page = () => {
         )}
       </Card>
     </div>
+    </>
   );
 };
 
