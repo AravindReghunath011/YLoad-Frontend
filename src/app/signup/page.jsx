@@ -22,7 +22,7 @@ export default function Signup() {
     }
 
     return (
-        <div className="flex h-screen max-h-screen items-center p-10">
+        <div className="flex h-screen max-h-screen items-center p-10 overflow-hidden">
             <div className="flex flex-col justify-center md:w-1/2 md:ms-32">
                 <h1 className="flex-start font-bold md:text-3xl text-2xl">
                     <span className="font-extrabold text-5xl">J</span>
